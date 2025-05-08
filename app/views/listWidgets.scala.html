@@ -38,15 +38,24 @@
         @helper.inputText(form("name"))
 
         @helper.inputText(form("price"))
-        <h-captcha id="signupCaptcha"
-        site-key="@siteKey"
-        size="normal"
-        tabindex="0"></h-captcha>
 
-        <br/>
+        <div class="h-captcha" data-sitekey="@siteKey" data-size="invisible" data-callback="onCaptchaSuccess"></div>
         <button type="submit">Create widget</button>
     }
 
 
+    <script type="text/javascript">
+        const form = document.getElementById('my-form');
 
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            hcaptcha.execute(); // Manually trigger invisible CAPTCHA
+        });
+
+        function onCaptchaSuccess(token) {
+            // CAPTCHA passed — submit the form
+            form.submit();
+        }
+
+    </script>
 }
