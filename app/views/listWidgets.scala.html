@@ -1,7 +1,7 @@
 @import play.mvc.Http.Request
-@(widgets: Seq[Widget], form: Form[WidgetData], siteKey: String)(implicit request: Request, messages: play.i18n.Messages)
+@(widgets: Seq[Widget], form: Form[WidgetData], captchaType: CaptchaType, siteKey: String)(implicit request: Request, messages: play.i18n.Messages)
 
-@main("Widgets") {
+@main("Widgets", captchaType) {
 
     <h1>Widgets</h1>
 
@@ -39,7 +39,14 @@
 
         @helper.inputText(form("price"))
 
-        <div class="h-captcha" data-sitekey="@siteKey" data-size="invisible" data-callback="onCaptchaSuccess"></div>
+        @if(captchaType == CaptchaType.HCAPTCHA) {
+            <div class="h-captcha" data-sitekey="@siteKey" data-size="invisible" data-callback="onCaptchaSuccess"></div>
+        }
+
+        @if(captchaType == CaptchaType.TURNSTILE) {
+            <div id="cf-turnstile-container"></div>
+        }
+
         <button type="submit">Create widget</button>
     }
 
@@ -49,7 +56,20 @@
 
         form.addEventListener('submit', function (e) {
             e.preventDefault();
-            hcaptcha.execute(); // Manually trigger invisible CAPTCHA
+            @if(captchaType == CaptchaType.HCAPTCHA) {
+                hcaptcha.execute(); // Manually trigger invisible CAPTCHA
+            }
+
+            @if(captchaType == CaptchaType.TURNSTILE) {
+                turnstile.ready(function () {
+                    turnstile.render("#cf-turnstile-container", {
+                        sitekey: "@siteKey",
+                        callback: function (token) {
+                            onCaptchaSuccess(token);
+                        },
+                    });
+                });
+            }
         });
 
         function onCaptchaSuccess(token) {

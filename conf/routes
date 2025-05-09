@@ -2,11 +2,8 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET     /                           controllers.WidgetController.index
-
 # Widgets
-GET     /widgets                    controllers.WidgetController.listWidgets(request: Request)
+GET     /                           controllers.WidgetController.listWidgets(request: Request)
 POST    /widgets                    controllers.WidgetController.createWidget(request: Request)
 
 # Map static resources from the /public folder to the /assets URL path
