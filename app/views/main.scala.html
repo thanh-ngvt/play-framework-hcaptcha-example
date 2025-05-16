@@ -13,6 +13,10 @@
             @if(captchaType == CaptchaType.TURNSTILE) {
                 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"></script>
             }
+
+            @if(captchaType == CaptchaType.RECAPTCHA) {
+                <script src="https://www.google.com/recaptcha/enterprise.js"></script>
+            }
     </head>
     <body>
     @content

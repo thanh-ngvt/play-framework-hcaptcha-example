@@ -47,7 +47,16 @@
             <div id="cf-turnstile-container"></div>
         }
 
-        <button type="submit">Create widget</button>
+        @if(captchaType == CaptchaType.RECAPTCHA) {
+            <button class="g-recaptcha"
+            data-sitekey="@siteKey"
+            data-callback='onCaptchaSuccess'
+            data-action='submit'>
+                Submit
+            </button>
+        } else {
+            <button type="submit">Create widget</button>
+        }
     }
 
 
@@ -65,14 +74,14 @@
                     turnstile.render("#cf-turnstile-container", {
                         sitekey: "@siteKey",
                         callback: function (token) {
-                            onCaptchaSuccess(token);
+                            onCaptchaSuccess();
                         },
                     });
                 });
             }
         });
 
-        function onCaptchaSuccess(token) {
+        function onCaptchaSuccess() {
             // CAPTCHA passed — submit the form
             form.submit();
         }

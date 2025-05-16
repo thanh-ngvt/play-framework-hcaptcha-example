@@ -4,6 +4,7 @@ import models.CaptchaType;
 import play.Environment;
 import service.HCaptchaService;
 import service.CaptchaService;
+import service.ReCaptchaService;
 import service.TurnstileCaptchaService;
 
 public class Module extends AbstractModule {
@@ -25,9 +26,9 @@ public class Module extends AbstractModule {
             case HCAPTCHA:
                 bind(CaptchaService.class).to(HCaptchaService.class);
                 break;
-//            case RECAPTCHA:
-//                bind(ICaptchaService.class).to(ReCaptchaService.class);
-//                break;
+            case RECAPTCHA:
+                bind(CaptchaService.class).to(ReCaptchaService.class);
+                break;
             case TURNSTILE:
                 bind(CaptchaService.class).to(TurnstileCaptchaService.class);
                 break;

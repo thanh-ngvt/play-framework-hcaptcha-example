@@ -8,15 +8,18 @@ import play.libs.ws.WSRequest;
 import play.libs.ws.WSResponse;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.time.Duration;
 
-public class HCaptchaService implements CaptchaService {
+@Singleton
+public class ReCaptchaService implements CaptchaService {
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Config config;
     private final WSClient ws;
 
     @Inject
-    public HCaptchaService(Config config, WSClient ws) {
+    public ReCaptchaService(Config config, WSClient ws) {
         this.config = config;
         this.ws = ws;
     }
@@ -29,7 +32,7 @@ public class HCaptchaService implements CaptchaService {
                     "&secret=" +
                     config.getString("captcha.secret");
 
-            WSRequest wsRequest = ws.url("https://hcaptcha.com/siteverify")
+            WSRequest wsRequest = ws.url("https://www.google.com/recaptcha/api/siteverify")
                     .addHeader("Content-Type", "application/x-www-form-urlencoded")
                     .setRequestTimeout(Duration.ofSeconds(10));
 
@@ -43,5 +46,10 @@ public class HCaptchaService implements CaptchaService {
             logger.info(e.getMessage());
             return false;
         }
+    }
+
+    @Override
+    public String getCaptchaResponseFieldName() {
+        return "g-recaptcha-response";
     }
 }
