@@ -1,6 +1,6 @@
-# play-java-forms-hcaptcha
+# play-java-forms-captcha
 
-This example shows form processing and form helper handling in Play with hCAPTCHA.
+This example shows form processing and form helper handling in Play with some popular captcha provider.
 
 ## How to run
 
@@ -22,7 +22,7 @@ captcha {
 ```
 - allowed hosts to test domain configred for captcha
 
-Make sure that you also adjust your hosts file to adapt with domain captcha test, because hCaptcha doesn't work in localhost:9000 domain.
+Make sure that you also adjust your hosts file to adapt with domain captcha test registered, because most of captcha doesn't work in localhost:9000 domain.
 
 ```
 sbt run
